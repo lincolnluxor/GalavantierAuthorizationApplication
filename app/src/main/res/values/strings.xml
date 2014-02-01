@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">Galavantier Authorization Application</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="sign_in_button">Sign In</string>
+    <string name="create_account_button">Create An Account</string>
+    <string name="dummy_content">Galavantier</string>
 
 </resources>
