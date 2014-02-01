@@ -31,39 +31,9 @@
                 android:orientation="horizontal"
                 tools:ignore="UselessParent"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/fullscreen_content">
+                android:layout_alignParentStart="true">
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editText3"
-                    android:layout_below="@+id/create_account_button"
-                    android:layout_marginTop="48dp"
-                    android:text="Sign In"
-                    android:background="#888888"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:paddingTop="25px"
-                    android:paddingBottom="25px"
-                    android:paddingLeft="15px" />
             </LinearLayout>
-
-            <TextView android:id="@+id/fullscreen_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:keepScreenOn="true"
-                android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:textSize="50sp"
-                android:gravity="center"
-                android:text="@string/dummy_content"
-                android:layout_gravity="left|top"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
 
             <Button
                 style="?metaButtonBarButtonStyle"
@@ -74,11 +44,13 @@
                 android:text="@string/create_account_button"
                 android:layout_gravity="center_horizontal|bottom"
                 android:textColor="#000000"
-                android:background="#ffff00"
-                android:layout_marginTop="105dp"
-                android:layout_below="@+id/editText"
+                android:background="#ffc000"
+                android:layout_marginTop="28dp"
+                android:layout_below="@+id/sign_in_button"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                android:enabled="true" />
 
             <Button android:id="@+id/sign_in_button"
                 style="?metaButtonBarButtonStyle"
@@ -87,12 +59,14 @@
                 android:layout_weight="1"
                 android:text="@string/sign_in_button"
                 android:layout_gravity="center"
-                android:background="#ffff00"
+                android:background="#ffc000"
                 android:textColor="#000000"
-                android:layout_marginTop="23dp"
                 android:layout_below="@+id/editText"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="5px"
+                android:clickable="true"
+                android:enabled="true" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -100,17 +74,19 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/editText"
-                android:layout_marginTop="19dp"
                 android:background="#333333"
+                android:hint="Password"
+                android:paddingTop="15px"
+                android:paddingBottom="15px"
+                android:paddingLeft="15px"
+                android:focusable="true"
                 android:layout_below="@+id/editText2"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:hint="Password"
-                android:paddingTop="15px"
-                android:paddingBottom="15px"
-                android:paddingLeft="15px" />
+                android:layout_marginTop="5px"
+                android:editable="true" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -122,14 +98,43 @@
                 android:paddingTop="15px"
                 android:paddingBottom="15px"
                 android:paddingLeft="15px"
-                android:layout_below="@+id/fullscreen_content_controls"
+                android:layout_below="@+id/editText3"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="22dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5px"
+                android:editable="true" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:src="@drawable/Galavantier_Logo_322x92"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="-35px"
+                android:layout_marginBottom="-20px" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText3"
+                android:text="Login"
+                android:background="#3399cc"
+                android:paddingTop="25px"
+                android:paddingBottom="25px"
+                android:paddingLeft="15px"
+                android:layout_weight="1"
+                android:layout_below="@+id/imageView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
+
     </FrameLayout>
 
 </FrameLayout>
