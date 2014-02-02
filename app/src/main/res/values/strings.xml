@@ -3,8 +3,10 @@
     <string name="app_name">Galavantier Authorization Application</string>
     <string name="sign_in_button">Sign In</string>
     <string name="create_account_button">Create An Account</string>
+    <string name="create_account_text">Create An Account</string>
     <string name="login_text">Login</string>
     <string name="password_input">Password</string>
+    <string name="password_reenter_input">Reenter Password</string>
     <string name="username_input">Username</string>
     <string name="company_name">Galavantier</string>
     <string name="activity_fullscreen">activity_fullscreen</string>
