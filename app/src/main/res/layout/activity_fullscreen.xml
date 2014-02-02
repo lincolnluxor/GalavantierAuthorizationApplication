@@ -13,6 +13,13 @@
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/fullscreen_content_controls">
+
+    </FrameLayout>
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -34,7 +41,7 @@
             android:cropToPadding="true" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/username_input"
             android:background="#333333"
@@ -49,10 +56,11 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="3dp" />
+            android:layout_marginTop="3dp"
+            android:inputType="text" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
@@ -84,7 +92,8 @@
             android:layout_marginTop="3dp"
             android:clickable="true"
             android:enabled="true"
-            android:text="@string/sign_in_button" />
+            android:text="@string/sign_in_button"
+            android:onClick="onClick" />
 
         <Button
             style="?metaButtonBarButtonStyle"
@@ -100,10 +109,11 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:clickable="true"
-            android:enabled="true" />
+            android:enabled="true"
+            android:onClick="onClick" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/login_text"
             android:background="#3399cc"
@@ -120,10 +130,5 @@
             android:hint="@string/login_text" />
 
     </RelativeLayout>
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/fullscreen_content_controls"></FrameLayout>
 
 </FrameLayout>

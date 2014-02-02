@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -17,6 +19,10 @@ import android.view.View;
  * @see SystemUiHider
  */
 public class FullscreenActivity extends Activity {
+    EditText usernameInputText;
+    EditText passwordInputText;
+    EditText loginErrorText;
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -50,6 +56,9 @@ public class FullscreenActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_fullscreen);
+
+        Button signInButton = (Button) findViewById(R.id.sign_in_button);
+        Button createAccountButton = (Button) findViewById(R.id.create_account_button);
 
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
@@ -113,9 +122,43 @@ public class FullscreenActivity extends Activity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.create_account_button).setOnTouchListener(mDelayHideTouchListener);
+        createAccountButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                // -Tate- Switch views to create an account
+            }
+        });
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
 
+                // getting edittext info
+                usernameInputText = (EditText) findViewById(R.id.username_input);
+                passwordInputText = (EditText) findViewById(R.id.password_input);
+                loginErrorText = (EditText) findViewById(R.id.login_text);
+
+                // transform to string
+                String usernameInputString = usernameInputText.getText().toString();
+                String passwordInputString = passwordInputText.getText().toString();
+
+                // check to see if either username or password is missing
+                if (usernameInputString.length() == 0 && passwordInputString.length() == 0) {
+                    loginErrorText.setText("Username and Password are required");
+                    loginErrorText.setBackgroundColor(0xffff0000);
+                } else if (usernameInputString.length() == 0) {
+                    loginErrorText.setText("Username is required");
+                    loginErrorText.setBackgroundColor(0xffff0000);
+                } else if (passwordInputString.length() == 0) {
+                    loginErrorText.setText("Password is required");
+                    loginErrorText.setBackgroundColor(0xffff0000);
+                } else {
+                    loginErrorText.setText("Login");
+                    loginErrorText.setBackgroundColor(0xff3399cc);
+                    //proceed here
+                }
+            }
+        });
 
     }
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -159,4 +202,6 @@ public class FullscreenActivity extends Activity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
+
 }
