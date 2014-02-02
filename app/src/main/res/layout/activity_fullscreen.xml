@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0099cc"
-    tools:context="com.galavantier.app.FullscreenActivity">
+    tools:context="com.galavantier.app.FullscreenActivity"
+    android:id="@string/activity_fullscreen">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -11,130 +12,118 @@
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
-    <FrameLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:background="#000000">
+        android:background="#000000"
+        android:id="@+id/fullscreen_content">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/galavantier_logo_322x92"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="-15dp"
+            android:layout_marginBottom="-10dp"
+            android:contentDescription="@string/company_name"
+            android:cropToPadding="true" />
 
-            <LinearLayout android:id="@+id/fullscreen_content_controls"
-                style="?metaButtonBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:background="@color/black_overlay"
-                android:orientation="horizontal"
-                tools:ignore="UselessParent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/username_input"
+            android:background="#333333"
+            android:focusable="true"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:editable="true"
+            android:hint="@string/username_input"
+            android:layout_below="@+id/login_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp" />
 
-            </LinearLayout>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/password_input"
+            android:background="#333333"
+            android:hint="@string/password_input"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:focusable="true"
+            android:layout_below="@+id/username_input"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp"
+            android:editable="true" />
 
-            <Button
-                style="?metaButtonBarButtonStyle"
-                android:id="@+id/create_account_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/create_account_button"
-                android:layout_gravity="center_horizontal|bottom"
-                android:textColor="#000000"
-                android:background="#ffc000"
-                android:layout_marginTop="28dp"
-                android:layout_below="@+id/sign_in_button"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:clickable="true"
-                android:enabled="true" />
+        <Button android:id="@+id/sign_in_button"
+            style="?metaButtonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#ffc000"
+            android:textColor="#000000"
+            android:layout_below="@+id/password_input"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="3dp"
+            android:clickable="true"
+            android:enabled="true"
+            android:text="@string/sign_in_button" />
 
-            <Button android:id="@+id/sign_in_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/sign_in_button"
-                android:layout_gravity="center"
-                android:background="#ffc000"
-                android:textColor="#000000"
-                android:layout_below="@+id/editText"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5px"
-                android:clickable="true"
-                android:enabled="true" />
+        <Button
+            style="?metaButtonBarButtonStyle"
+            android:id="@+id/create_account_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_account_button"
+            android:layout_gravity="bottom"
+            android:textColor="#000000"
+            android:background="#ffc000"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/sign_in_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:clickable="true"
+            android:enabled="true" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/editText"
-                android:background="#333333"
-                android:hint="Password"
-                android:paddingTop="15px"
-                android:paddingBottom="15px"
-                android:paddingLeft="15px"
-                android:focusable="true"
-                android:layout_below="@+id/editText2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="5px"
-                android:editable="true" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_text"
+            android:background="#3399cc"
+            android:autoText="false"
+            android:text="@string/login_text"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_below="@+id/imageView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:hint="@string/login_text" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText2"
-                android:background="#333333"
-                android:focusable="true"
-                android:hint="Username"
-                android:paddingTop="15px"
-                android:paddingBottom="15px"
-                android:paddingLeft="15px"
-                android:layout_below="@+id/editText3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="5px"
-                android:editable="true" />
+    </RelativeLayout>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:src="@drawable/Galavantier_Logo_322x92"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="-35px"
-                android:layout_marginBottom="-20px" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText3"
-                android:text="Login"
-                android:background="#3399cc"
-                android:paddingTop="25px"
-                android:paddingBottom="25px"
-                android:paddingLeft="15px"
-                android:layout_weight="1"
-                android:layout_below="@+id/imageView"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-        </RelativeLayout>
-
-    </FrameLayout>
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/fullscreen_content_controls"></FrameLayout>
 
 </FrameLayout>

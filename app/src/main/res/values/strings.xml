@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Galavantier Authorization Application</string>
     <string name="sign_in_button">Sign In</string>
     <string name="create_account_button">Create An Account</string>
-    <string name="dummy_content">Galavantier</string>
-
+    <string name="login_text">Login</string>
+    <string name="password_input">Password</string>
+    <string name="username_input">Username</string>
+    <string name="company_name">Galavantier</string>
+    <string name="activity_fullscreen">activity_fullscreen</string>
+    <string name="fullscreen_content_controls">fullscreen_content_controls</string>
+    <string name="fullscreen_content">fullscreen_content</string>
 </resources>
