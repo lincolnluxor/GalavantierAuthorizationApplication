@@ -2,9 +2,11 @@ package com.galavantier.app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,18 @@ import android.widget.EditText;
 
 import com.galavantier.app.R;
 import com.galavantier.app.util.SystemUiHider;
+import com.galavantier.app.util.postJson;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -22,8 +36,9 @@ import com.galavantier.app.util.SystemUiHider;
 public class SignInActivity extends Activity {
     EditText usernameInputText;
     EditText passwordInputText;
-    EditText passwordReenterInputText;
+    //EditText passwordReenterInputText;
     EditText loginErrorText;
+
 
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -128,7 +143,15 @@ public class SignInActivity extends Activity {
         createAccountSwitchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 // -Tate- Switch views to create an account
-                new CreateAccountActivity();
+
+                //Intent newActivity = new Intent(SignInActivity.this,CreateAccountActivity.class);
+                //startActivity(newActivity);
+                try {
+                    new CreateAccountActivity(view);
+                } catch (Exception e) {
+                    Log.e("log_tag", "Error: " + e.toString());
+                }
+
             }
         });
 
@@ -157,12 +180,14 @@ public class SignInActivity extends Activity {
                 } else {
                     loginErrorText.setText("Login");
                     loginErrorText.setBackgroundColor(0xff3399cc);
-                    //proceed here
+                    new postJson(usernameInputString, passwordInputString);
                 }
             }
         });
 
     }
+
+
 
 
     @Override
@@ -207,6 +232,5 @@ public class SignInActivity extends Activity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
-
 
 }

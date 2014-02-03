@@ -12,21 +12,16 @@ import android.widget.EditText;
 
 import com.galavantier.app.util.SystemUiHider;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- *
- * @see com.galavantier.app.util.SystemUiHider
- */
 public class CreateAccountActivity extends Activity {
     EditText usernameInputText;
     EditText passwordInputText;
     EditText passwordReenterInputText;
     EditText loginErrorText;
 
-    public CreateAccountActivity() {
+    protected CreateAccountActivity (View view) {
         setContentView(R.layout.create_account_activity);
         Button createAccountButton = (Button) findViewById(R.id.create_account_button);
+
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 // getting edittext info
@@ -59,5 +54,6 @@ public class CreateAccountActivity extends Activity {
                 }
             }
         });
+
     }
 }
