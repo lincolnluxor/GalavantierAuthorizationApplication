@@ -18,7 +18,7 @@ public class CreateAccountActivity extends Activity {
     EditText passwordReenterInputText;
     EditText loginErrorText;
 
-    protected CreateAccountActivity (View view) {
+    public CreateAccountActivity (View view) {
         setContentView(R.layout.create_account_activity);
         Button createAccountButton = (Button) findViewById(R.id.create_account_button);
 

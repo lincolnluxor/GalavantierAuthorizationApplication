@@ -147,7 +147,43 @@ public class SignInActivity extends Activity {
                 //Intent newActivity = new Intent(SignInActivity.this,CreateAccountActivity.class);
                 //startActivity(newActivity);
                 try {
-                    new CreateAccountActivity(view);
+                    //new CreateAccountActivity(view);
+                    setContentView(R.layout.create_account_activity);
+                    Button createAccountButton = (Button) findViewById(R.id.create_account_button);
+                    //EditText passwordReenterInputText;
+
+                    createAccountButton.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            // getting edittext info
+                            usernameInputText = (EditText) findViewById(R.id.username_input);
+                            passwordInputText = (EditText) findViewById(R.id.password_input);
+                            EditText passwordReenterInputText = (EditText) findViewById(R.id.password_reenter_input);
+                            loginErrorText = (EditText) findViewById(R.id.login_text);
+
+                            // transform to string
+                            String usernameInputString = usernameInputText.getText().toString();
+                            String passwordInputString = passwordInputText.getText().toString();
+                            String passwordReenterInputString = passwordReenterInputText.getText().toString();
+
+                            if (passwordInputString != passwordReenterInputString) {
+                                loginErrorText.setText("Passwords don't match");
+                                loginErrorText.setBackgroundColor(0xffff0000);
+                                passwordInputText.setBackgroundColor(0xff7D0B0B);
+                                passwordReenterInputText.setBackgroundColor(0xff7D0B0B);
+                            } else if (usernameInputString.length() == 0) {
+                                loginErrorText.setText("Username is required");
+                                loginErrorText.setBackgroundColor(0xffff0000);
+                                usernameInputText.setBackgroundColor(0xff7D0B0B);
+                            } else if (passwordInputString.length() == 0 || passwordReenterInputString.length() == 0) {
+                                loginErrorText.setText("Password is required");
+                                loginErrorText.setBackgroundColor(0xffff0000);
+                                passwordInputText.setBackgroundColor(0xff7D0B0B);
+                                passwordReenterInputText.setBackgroundColor(0xff7D0B0B);
+                            } else {
+                                // Proceed
+                            }
+                        }
+                    });
                 } catch (Exception e) {
                     Log.e("log_tag", "Error: " + e.toString());
                 }
@@ -162,7 +198,6 @@ public class SignInActivity extends Activity {
                 usernameInputText = (EditText) findViewById(R.id.username_input);
                 passwordInputText = (EditText) findViewById(R.id.password_input);
                 loginErrorText = (EditText) findViewById(R.id.login_text);
-
 
                 // transform to string
                 String usernameInputString = usernameInputText.getText().toString();
@@ -181,20 +216,20 @@ public class SignInActivity extends Activity {
                 } else {
                     loginErrorText.setText("Login");
                     loginErrorText.setBackgroundColor(0xff3399cc);
-                    postJson(usernameInputString, passwordInputString);
-
+                    postSignInJson(usernameInputString, passwordInputString);
+                    //proceed
                 }
             }
         });
 
     }
 
-    public void postJson(final String usernameInputString, final String passwordInputString) {
-        Thread t1 = new Thread() {
+    public void postSignInJson(final String usernameInputString, final String passwordInputString) {
+        Thread t1 = new Thread() { //Network connections can't run in the main thread
             public void run() {
                 Looper.prepare();
-                JSONObject json = new JSONObject();
-                JSONObject userInfo = new JSONObject();
+                JSONObject json = new JSONObject(); //json containing header and user info json
+                JSONObject userInfo = new JSONObject(); //json containing the user info only
                 try {
                     userInfo.put("username",usernameInputString);
                     userInfo.put("password",passwordInputString);
