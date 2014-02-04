@@ -146,7 +146,6 @@ public class SignInActivity extends Activity {
         createAccountSwitchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
-                    //new CreateAccountActivity(view);
                     setContentView(R.layout.create_account_activity);
                     Button createAccountButton = (Button) findViewById(R.id.create_account_button);
 
