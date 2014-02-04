@@ -13,22 +13,23 @@ import android.widget.EditText;
 import com.galavantier.app.util.SystemUiHider;
 
 public class CreateAccountActivity extends Activity {
-    EditText usernameInputText;
-    EditText passwordInputText;
-    EditText passwordReenterInputText;
-    EditText loginErrorText;
+    //EditText usernameInputText;
+    //EditText passwordInputText;
+    //EditText passwordReenterInputText;
+    //EditText loginErrorText;
 
     public CreateAccountActivity (View view) {
         setContentView(R.layout.create_account_activity);
         Button createAccountButton = (Button) findViewById(R.id.create_account_button);
-
+        /*
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+            */
                 // getting edittext info
-                usernameInputText = (EditText) findViewById(R.id.username_input);
-                passwordInputText = (EditText) findViewById(R.id.password_input);
-                passwordReenterInputText = (EditText) findViewById(R.id.password_reenter_input);
-                loginErrorText = (EditText) findViewById(R.id.login_text);
+                EditText usernameInputText = (EditText) findViewById(R.id.username_input);
+                EditText passwordInputText = (EditText) findViewById(R.id.password_input);
+                EditText passwordReenterInputText = (EditText) findViewById(R.id.password_reenter_input);
+                EditText loginErrorText = (EditText) findViewById(R.id.login_text);
 
                 // transform to string
                 String usernameInputString = usernameInputText.getText().toString();
@@ -52,8 +53,10 @@ public class CreateAccountActivity extends Activity {
                 } else {
                     // Proceed
                 }
+        /*
             }
         });
+        */
 
     }
 }

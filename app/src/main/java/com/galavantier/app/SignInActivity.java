@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.galavantier.app.util.SystemUiHider;
+import com.galavantier.app.postSignInJson;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -37,8 +39,12 @@ public class SignInActivity extends Activity {
     EditText passwordInputText;
     //EditText passwordReenterInputText;
     EditText loginErrorText;
+    EditText emailInputText;
+    EditText fnameInputText;
+    EditText lnameInputText;
 
-    String loginPostLink = "http://dev-mlg.gotpantheon.com/api/mglUser/login.json";
+    String loginPostLink = "http://dev-mgl.gotpantheon.com/api/user/login.json";
+    String registerPostLink = "http://dev-mgl.gotpantheon.com/api/mglUser/register.json";
 
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -76,7 +82,6 @@ public class SignInActivity extends Activity {
 
         Button signInButton = (Button) findViewById(R.id.sign_in_button);
         Button createAccountSwitchButton = (Button) findViewById(R.id.create_account_switch_button);
-
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
@@ -150,6 +155,7 @@ public class SignInActivity extends Activity {
                     //new CreateAccountActivity(view);
                     setContentView(R.layout.create_account_activity);
                     Button createAccountButton = (Button) findViewById(R.id.create_account_button);
+
                     //EditText passwordReenterInputText;
 
                     createAccountButton.setOnClickListener(new View.OnClickListener() {
@@ -160,26 +166,40 @@ public class SignInActivity extends Activity {
                             EditText passwordReenterInputText = (EditText) findViewById(R.id.password_reenter_input);
                             loginErrorText = (EditText) findViewById(R.id.login_text);
 
+                            //the password fields are set to regular text to ensure the look of the font is the same.
+                            //this will change the fields to still act like a normal password field (mask characters)
+                                //Not working!
+                            passwordInputText.setTransformationMethod(new PasswordTransformationMethod());
+                            passwordReenterInputText.setTransformationMethod(new PasswordTransformationMethod());
+
                             // transform to string
                             String usernameInputString = usernameInputText.getText().toString();
                             String passwordInputString = passwordInputText.getText().toString();
                             String passwordReenterInputString = passwordReenterInputText.getText().toString();
+                            String emailInputString = emailInputText.getText().toString();
+                            String fnameInputString = fnameInputText.getText().toString();
+                            String lnameInputString = lnameInputText.getText().toString();
 
-                            if (passwordInputString != passwordReenterInputString) {
+                            if (usernameInputString.length() == 0) {
+                                loginErrorText.setText("Username is required");
+                                loginErrorText.setBackgroundColor(0xffff0000);
+                                usernameInputText.setBackgroundColor(0xff7D0B0B);
+                            } else if (passwordInputString != passwordReenterInputString) {
                                 loginErrorText.setText("Passwords don't match");
                                 loginErrorText.setBackgroundColor(0xffff0000);
                                 passwordInputText.setBackgroundColor(0xff7D0B0B);
                                 passwordReenterInputText.setBackgroundColor(0xff7D0B0B);
-                            } else if (usernameInputString.length() == 0) {
-                                loginErrorText.setText("Username is required");
-                                loginErrorText.setBackgroundColor(0xffff0000);
-                                usernameInputText.setBackgroundColor(0xff7D0B0B);
                             } else if (passwordInputString.length() == 0 || passwordReenterInputString.length() == 0) {
                                 loginErrorText.setText("Password is required");
                                 loginErrorText.setBackgroundColor(0xffff0000);
                                 passwordInputText.setBackgroundColor(0xff7D0B0B);
                                 passwordReenterInputText.setBackgroundColor(0xff7D0B0B);
+                            } else if (emailInputString.length() == 0) {
+                                loginErrorText.setText("Email is required");
+                                loginErrorText.setBackgroundColor(0xffff0000);
+                                emailInputText.setBackgroundColor(0xff7D0B0B);
                             } else {
+                                new postCreateAccountJson(registerPostLink, usernameInputString, passwordInputString, emailInputString, fnameInputString, lnameInputString);
                                 // Proceed
                             }
                         }
@@ -194,73 +214,42 @@ public class SignInActivity extends Activity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                // getting edittext info
-                usernameInputText = (EditText) findViewById(R.id.username_input);
-                passwordInputText = (EditText) findViewById(R.id.password_input);
-                loginErrorText = (EditText) findViewById(R.id.login_text);
+            // getting edittext info
+            usernameInputText = (EditText) findViewById(R.id.username_input);
+            passwordInputText = (EditText) findViewById(R.id.password_input);
+            loginErrorText = (EditText) findViewById(R.id.login_text);
 
-                // transform to string
-                String usernameInputString = usernameInputText.getText().toString();
-                String passwordInputString = passwordInputText.getText().toString();
+            // transform to string
+            String usernameInputString = usernameInputText.getText().toString();
+            String passwordInputString = passwordInputText.getText().toString();
 
-                // check to see if either username or password is missing
-                if (usernameInputString.length() == 0 && passwordInputString.length() == 0) {
-                    loginErrorText.setText("Username and Password are required");
-                    loginErrorText.setBackgroundColor(0xffff0000);
-                } else if (usernameInputString.length() == 0) {
-                    loginErrorText.setText("Username is required");
-                    loginErrorText.setBackgroundColor(0xffff0000);
-                } else if (passwordInputString.length() == 0) {
-                    loginErrorText.setText("Password is required");
-                    loginErrorText.setBackgroundColor(0xffff0000);
-                } else {
-                    loginErrorText.setText("Login");
-                    loginErrorText.setBackgroundColor(0xff3399cc);
-                    postSignInJson(usernameInputString, passwordInputString);
-                    //proceed
-                }
+            //the password fields are set to regular text to ensure the look of the font is the same.
+            //this will change the fields to still act like a normal password field (mask characters)
+                //Not working!
+            passwordInputText.setTransformationMethod(new PasswordTransformationMethod());
+
+            // check to see if either username or password is missing
+            if (usernameInputString.length() == 0 && passwordInputString.length() == 0) {
+                loginErrorText.setText("Username and Password are required");
+                loginErrorText.setBackgroundColor(0xffff0000);
+            } else if (usernameInputString.length() == 0) {
+                loginErrorText.setText("Username is required");
+                loginErrorText.setBackgroundColor(0xffff0000);
+            } else if (passwordInputString.length() == 0) {
+                loginErrorText.setText("Password is required");
+                loginErrorText.setBackgroundColor(0xffff0000);
+            } else {
+                loginErrorText.setText("Login");
+                loginErrorText.setBackgroundColor(0xff3399cc);
+                new postSignInJson(loginPostLink, usernameInputString, passwordInputString);
+                //proceed
+            }
             }
         });
 
     }
 
-    public void postSignInJson(final String usernameInputString, final String passwordInputString) {
-        Thread t1 = new Thread() { //Network connections can't run in the main thread
-            public void run() {
-                Looper.prepare();
-                JSONObject json = new JSONObject(); //json containing header and user info json
-                JSONObject userInfo = new JSONObject(); //json containing the user info only
-                try {
-                    userInfo.put("username",usernameInputString);
-                    userInfo.put("password",passwordInputString);
-                    json.put("form_values",userInfo.toString());
-                    int timeOut = 10000; // 10 seconds
-                    HttpParams params = new BasicHttpParams();
-                    HttpConnectionParams.setConnectionTimeout(params, timeOut);
-                    HttpConnectionParams.setSoTimeout(params,timeOut);
-                    HttpClient client = new DefaultHttpClient(params);
-                    HttpPost post = new HttpPost(loginPostLink);
-                    //post.addHeader("Content-Type","application/json");
-                    StringEntity content = new StringEntity(json.toString());
-                    content.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                    post.setEntity(content);
-                    HttpResponse response = client.execute(post);
-                    //InputStream is = response.getEntity().getContent();
-                    //String result = convertStreamToString(is);
-                    if(response != null) {
-                        Log.i("Response: ", response.toString());
-                    } else {
-                        Log.i("No response", "");
-                    }
-                } catch (Exception e) {
-                    //Log.i("log_tag", "Error: " + e.toString());
-                    Log.i("log_tag", "Error: ", e);
-                }
-                Looper.loop();
-            }
-        };
-        t1.start();
-    }
+
 
 
     @Override

@@ -62,7 +62,6 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/password_input"
             android:background="#333333"
@@ -77,7 +76,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="3dp"
-            android:editable="true" />
+            android:editable="true"
+            android:inputType="text" />
 
         <Button android:id="@+id/sign_in_button"
             style="?metaButtonBarButtonStyle"

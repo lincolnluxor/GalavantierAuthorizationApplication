@@ -6,8 +6,13 @@
     <string name="create_account_text">Create An Account</string>
     <string name="login_text">Login</string>
     <string name="password_input">Password</string>
+    <string name="password_required_input">Password (required)</string>
     <string name="password_reenter_input">Reenter Password</string>
     <string name="username_input">Username</string>
+    <string name="username_required_input">Username (required)</string>
+    <string name="email_input_text">Email (required)</string>
+    <string name="fname_input_text">First Name</string>
+    <string name="lname_input_text">Last Name</string>
     <string name="company_name">Galavantier</string>
     <string name="activity_fullscreen">activity_fullscreen</string>
     <string name="fullscreen_content_controls">fullscreen_content_controls</string>
