@@ -40,6 +40,7 @@ public class SignInActivity extends Activity {
     EditText passwordInputText;
     //EditText passwordReenterInputText;
     EditText loginErrorText;
+    public static int code;
 
     String loginPostLink = "http://dev-mgl.gotpantheon.com/api/user/login.json";
     String registerPostLink = "http://dev-mgl.gotpantheon.com/api/mglUser/register.json";
@@ -151,6 +152,11 @@ public class SignInActivity extends Activity {
 
                     createAccountButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
+                            /*
+                            if (R.id.create_account_activity == view.getId()) {
+
+                            }
+                            */
                             // getting edittext info
                             usernameInputText = (EditText) findViewById(R.id.username_input);
                             passwordInputText = (EditText) findViewById(R.id.password_input);
@@ -164,7 +170,7 @@ public class SignInActivity extends Activity {
                             //this will change the fields to still act like a normal password field (mask characters)
                             passwordInputText.setTypeface(Typeface.DEFAULT); //Not working!
                             passwordInputText.setTransformationMethod(new PasswordTransformationMethod());
-                            passwordReenterInputText.setTypeface(Typeface.DEFAULT);
+                            passwordReenterInputText.setTypeface(Typeface.DEFAULT); //Not working!
                             passwordReenterInputText.setTransformationMethod(new PasswordTransformationMethod());
 
                             // transform to string
@@ -174,7 +180,7 @@ public class SignInActivity extends Activity {
                             String emailInputString = emailInputText.getText().toString();
                             String fnameInputString = fnameInputText.getText().toString();
                             String lnameInputString = lnameInputText.getText().toString();
-
+                            boolean goodEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(emailInputString).matches();
                             if (usernameInputString.length() == 0) {
                                 loginErrorText.setText("Username is required");
                                 loginErrorText.setBackgroundColor(0xffff0000);
@@ -193,7 +199,13 @@ public class SignInActivity extends Activity {
                                 loginErrorText.setText("Email is required");
                                 loginErrorText.setBackgroundColor(0xffff0000);
                                 emailInputText.setBackgroundColor(0xff7D0B0B);
+                            } else if (!goodEmail) {
+                                loginErrorText.setText("Email is not valid");
+                                loginErrorText.setBackgroundColor(0xffff0000);
+                                emailInputText.setBackgroundColor(0xff7D0B0B);
                             } else {
+                                loginErrorText.setText("Create An Account");
+                                loginErrorText.setBackgroundColor(0xff3399cc);
                                 new postCreateAccountJson(registerPostLink, usernameInputString, passwordInputString, emailInputString, fnameInputString, lnameInputString);
                                 // Proceed
                             }
@@ -236,6 +248,11 @@ public class SignInActivity extends Activity {
                         loginErrorText.setText("Login");
                         loginErrorText.setBackgroundColor(0xff3399cc);
                         new postSignInJson(loginPostLink, usernameInputString, passwordInputString);
+
+                        if (code < 300 && code > 0){
+                            setContentView(R.layout.result_activity);
+                        }
+
                         //proceed
                     }
                 } catch (Exception e) {

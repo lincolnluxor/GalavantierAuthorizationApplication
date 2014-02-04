@@ -36,18 +36,16 @@ public class postSignInJson {
                     HttpConnectionParams.setSoTimeout(params,timeOut);
                     HttpClient client = new DefaultHttpClient(params);
                     HttpPost post = new HttpPost(loginPostLink);
-                    //post.addHeader("Content-Type","application/json");
                     StringEntity content = new StringEntity(json.toString());
-                    //content.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                    post.setHeader("Content-type","application/json");
+                    //content.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json")); //option 1
+                    post.setHeader("Content-type","application/json"); //option 2
+                    //post.addHeader("Content-Type","application/json"); //option 3
                     post.setEntity(content);
                     HttpResponse response = client.execute(post);
                     Log.i("json_tag", json.toString());
                     if(response != null) {
-                        //String responseContent = EntityUtils.toString(response.getEntity());
-                        //Log.i("Response: ", responseContent);
-                        int code = response.getStatusLine().getStatusCode();
-                        Log.i("code_tag",Integer.toString(code));
+                        SignInActivity.code = response.getStatusLine().getStatusCode();
+                        Log.i("code_tag",Integer.toString(SignInActivity.code));
                     } else {
                         Log.i("no_response_tag", "");
                     }
