@@ -13,6 +13,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 /**
@@ -27,36 +28,40 @@ public class postCreateAccountJson {
                 JSONObject userInfo = new JSONObject(); //json containing the user info only
                 try {
                     userInfo.put("username",usernameInputString);
-                    userInfo.put("password",passwordInputString);
-                    userInfo.put("email",emailInputString);
+                    userInfo.put("pass",passwordInputString); //unsure as to why this is a different than "password" which is required by signin
+                    userInfo.put("mail",emailInputString);
                     if (fnameInputString != null) {
                         userInfo.put("fname",fnameInputString);
                     }
                     if (lnameInputString != null) {
-                        userInfo.put("fname",lnameInputString);
+                        userInfo.put("lname",lnameInputString);
                     }
                     json.put("form_values",userInfo.toString());
                     int timeOut = 10000; // 10 seconds
                     HttpParams params = new BasicHttpParams();
                     HttpConnectionParams.setConnectionTimeout(params, timeOut);
-                    HttpConnectionParams.setSoTimeout(params,timeOut);
+                    HttpConnectionParams.setSoTimeout(params, timeOut);
                     HttpClient client = new DefaultHttpClient(params);
                     HttpPost post = new HttpPost(registerPostLink);
                     //post.addHeader("Content-Type","application/json");
                     StringEntity content = new StringEntity(json.toString());
-                    content.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    //content.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    post.setHeader("Content-type","application/json");
                     post.setEntity(content);
                     HttpResponse response = client.execute(post);
                     //InputStream is = response.getEntity().getContent();
                     //String result = convertStreamToString(is);
+                    Log.i("json_tag", json.toString());
                     if(response != null) {
-                        Log.i("Response: ", response.toString());
+                        //String responseContent = EntityUtils.toString(response.getEntity());
+                        //Log.i("Response: ", responseContent);
+                        int code = response.getStatusLine().getStatusCode();
+                        Log.i("code_tag",Integer.toString(code));
                     } else {
-                        Log.i("No response", "");
+                        Log.i("no_response_tag", "");
                     }
                 } catch (Exception e) {
-                    //Log.i("log_tag", "Error: " + e.toString());
-                    Log.i("log_tag", "Error: ", e);
+                    Log.i("error_tag", e.toString());
                 }
                 Looper.loop();
             }

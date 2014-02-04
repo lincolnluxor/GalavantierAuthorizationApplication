@@ -2,6 +2,7 @@ package com.galavantier.app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,9 +40,6 @@ public class SignInActivity extends Activity {
     EditText passwordInputText;
     //EditText passwordReenterInputText;
     EditText loginErrorText;
-    EditText emailInputText;
-    EditText fnameInputText;
-    EditText lnameInputText;
 
     String loginPostLink = "http://dev-mgl.gotpantheon.com/api/user/login.json";
     String registerPostLink = "http://dev-mgl.gotpantheon.com/api/mglUser/register.json";
@@ -147,29 +145,27 @@ public class SignInActivity extends Activity {
 
         createAccountSwitchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                // -Tate- Switch views to create an account
-
-                //Intent newActivity = new Intent(SignInActivity.this,CreateAccountActivity.class);
-                //startActivity(newActivity);
                 try {
                     //new CreateAccountActivity(view);
                     setContentView(R.layout.create_account_activity);
                     Button createAccountButton = (Button) findViewById(R.id.create_account_button);
-
-                    //EditText passwordReenterInputText;
 
                     createAccountButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
                             // getting edittext info
                             usernameInputText = (EditText) findViewById(R.id.username_input);
                             passwordInputText = (EditText) findViewById(R.id.password_input);
+                            EditText emailInputText = (EditText) findViewById(R.id.email_input);
+                            EditText fnameInputText = (EditText) findViewById(R.id.fname_input);
+                            EditText lnameInputText = (EditText) findViewById(R.id.lname_input);
                             EditText passwordReenterInputText = (EditText) findViewById(R.id.password_reenter_input);
                             loginErrorText = (EditText) findViewById(R.id.login_text);
 
                             //the password fields are set to regular text to ensure the look of the font is the same.
                             //this will change the fields to still act like a normal password field (mask characters)
-                                //Not working!
+                            passwordInputText.setTypeface(Typeface.DEFAULT); //Not working!
                             passwordInputText.setTransformationMethod(new PasswordTransformationMethod());
+                            passwordReenterInputText.setTypeface(Typeface.DEFAULT);
                             passwordReenterInputText.setTransformationMethod(new PasswordTransformationMethod());
 
                             // transform to string
@@ -184,7 +180,7 @@ public class SignInActivity extends Activity {
                                 loginErrorText.setText("Username is required");
                                 loginErrorText.setBackgroundColor(0xffff0000);
                                 usernameInputText.setBackgroundColor(0xff7D0B0B);
-                            } else if (passwordInputString != passwordReenterInputString) {
+                            } else if (!passwordInputString.equals(passwordReenterInputString)) {
                                 loginErrorText.setText("Passwords don't match");
                                 loginErrorText.setBackgroundColor(0xffff0000);
                                 passwordInputText.setBackgroundColor(0xff7D0B0B);
@@ -205,48 +201,49 @@ public class SignInActivity extends Activity {
                         }
                     });
                 } catch (Exception e) {
-                    Log.e("log_tag", "Error: " + e.toString());
+                    Log.e("error_tag", e.toString());
                 }
-
             }
         });
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                try {
+                    // getting edittext info
+                    usernameInputText = (EditText) findViewById(R.id.username_input);
+                    passwordInputText = (EditText) findViewById(R.id.password_input);
+                    loginErrorText = (EditText) findViewById(R.id.login_text);
 
-            // getting edittext info
-            usernameInputText = (EditText) findViewById(R.id.username_input);
-            passwordInputText = (EditText) findViewById(R.id.password_input);
-            loginErrorText = (EditText) findViewById(R.id.login_text);
+                    // transform to string
+                    String usernameInputString = usernameInputText.getText().toString();
+                    String passwordInputString = passwordInputText.getText().toString();
 
-            // transform to string
-            String usernameInputString = usernameInputText.getText().toString();
-            String passwordInputString = passwordInputText.getText().toString();
+                    //the password fields are set to regular text to ensure the look of the font is the same.
+                    //this will change the fields to still act like a normal password field (mask characters)
+                    passwordInputText.setTypeface(Typeface.DEFAULT); //Not working!
+                    passwordInputText.setTransformationMethod(new PasswordTransformationMethod());
 
-            //the password fields are set to regular text to ensure the look of the font is the same.
-            //this will change the fields to still act like a normal password field (mask characters)
-                //Not working!
-            passwordInputText.setTransformationMethod(new PasswordTransformationMethod());
-
-            // check to see if either username or password is missing
-            if (usernameInputString.length() == 0 && passwordInputString.length() == 0) {
-                loginErrorText.setText("Username and Password are required");
-                loginErrorText.setBackgroundColor(0xffff0000);
-            } else if (usernameInputString.length() == 0) {
-                loginErrorText.setText("Username is required");
-                loginErrorText.setBackgroundColor(0xffff0000);
-            } else if (passwordInputString.length() == 0) {
-                loginErrorText.setText("Password is required");
-                loginErrorText.setBackgroundColor(0xffff0000);
-            } else {
-                loginErrorText.setText("Login");
-                loginErrorText.setBackgroundColor(0xff3399cc);
-                new postSignInJson(loginPostLink, usernameInputString, passwordInputString);
-                //proceed
-            }
+                    // check to see if either username or password is missing
+                    if (usernameInputString.length() == 0 && passwordInputString.length() == 0) {
+                        loginErrorText.setText("Username and Password are required");
+                        loginErrorText.setBackgroundColor(0xffff0000);
+                    } else if (usernameInputString.length() == 0) {
+                        loginErrorText.setText("Username is required");
+                        loginErrorText.setBackgroundColor(0xffff0000);
+                    } else if (passwordInputString.length() == 0) {
+                        loginErrorText.setText("Password is required");
+                        loginErrorText.setBackgroundColor(0xffff0000);
+                    } else {
+                        loginErrorText.setText("Login");
+                        loginErrorText.setBackgroundColor(0xff3399cc);
+                        new postSignInJson(loginPostLink, usernameInputString, passwordInputString);
+                        //proceed
+                    }
+                } catch (Exception e) {
+                    Log.i("error_tag", e.toString());
+                }
             }
         });
-
     }
 
 

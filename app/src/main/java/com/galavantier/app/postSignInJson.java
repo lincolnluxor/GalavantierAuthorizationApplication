@@ -13,6 +13,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 /**
@@ -37,19 +38,21 @@ public class postSignInJson {
                     HttpPost post = new HttpPost(loginPostLink);
                     //post.addHeader("Content-Type","application/json");
                     StringEntity content = new StringEntity(json.toString());
-                    content.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    //content.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    post.setHeader("Content-type","application/json");
                     post.setEntity(content);
                     HttpResponse response = client.execute(post);
-                    //InputStream is = response.getEntity().getContent();
-                    //String result = convertStreamToString(is);
+                    Log.i("json_tag", json.toString());
                     if(response != null) {
-                        Log.i("Response: ", response.toString());
+                        //String responseContent = EntityUtils.toString(response.getEntity());
+                        //Log.i("Response: ", responseContent);
+                        int code = response.getStatusLine().getStatusCode();
+                        Log.i("code_tag",Integer.toString(code));
                     } else {
-                        Log.i("No response", "");
+                        Log.i("no_response_tag", "");
                     }
                 } catch (Exception e) {
-                    //Log.i("log_tag", "Error: " + e.toString());
-                    Log.i("log_tag", "Error: ", e);
+                    Log.i("error_tag", e.toString());
                 }
                 Looper.loop();
             }
