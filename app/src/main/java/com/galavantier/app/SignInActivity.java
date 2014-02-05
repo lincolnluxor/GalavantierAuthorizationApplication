@@ -2,12 +2,9 @@ package com.galavantier.app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,19 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.galavantier.app.util.SystemUiHider;
-import com.galavantier.app.postSignInJson;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
-import org.json.JSONObject;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -38,9 +22,7 @@ import org.json.JSONObject;
 public class SignInActivity extends Activity {
     EditText usernameInputText;
     EditText passwordInputText;
-    //EditText passwordReenterInputText;
     EditText loginErrorText;
-    public static int code;
 
     String loginPostLink = "http://dev-mgl.gotpantheon.com/api/user/login.json";
     String registerPostLink = "http://dev-mgl.gotpantheon.com/api/mglUser/register.json";
@@ -152,11 +134,6 @@ public class SignInActivity extends Activity {
 
                     createAccountButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
-                            /*
-                            if (R.id.create_account_activity == view.getId()) {
-
-                            }
-                            */
                             // getting edittext info
                             usernameInputText = (EditText) findViewById(R.id.username_input);
                             passwordInputText = (EditText) findViewById(R.id.password_input);
@@ -166,57 +143,52 @@ public class SignInActivity extends Activity {
                             EditText passwordReenterInputText = (EditText) findViewById(R.id.password_reenter_input);
                             loginErrorText = (EditText) findViewById(R.id.login_text);
 
-                            //the password fields are set to regular text to ensure the look of the font is the same.
-                            //this will change the fields to still act like a normal password field (mask characters)
-                            passwordInputText.setTypeface(Typeface.DEFAULT); //Not working!
-                            passwordInputText.setTransformationMethod(new PasswordTransformationMethod());
-                            passwordReenterInputText.setTypeface(Typeface.DEFAULT); //Not working!
-                            passwordReenterInputText.setTransformationMethod(new PasswordTransformationMethod());
-
                             // transform to string
+                            // nulls are ok... checking for that later
                             String usernameInputString = usernameInputText.getText().toString();
                             String passwordInputString = passwordInputText.getText().toString();
                             String passwordReenterInputString = passwordReenterInputText.getText().toString();
                             String emailInputString = emailInputText.getText().toString();
                             String fnameInputString = fnameInputText.getText().toString();
                             String lnameInputString = lnameInputText.getText().toString();
+
+                            //This shows up as an error, but the manifest specifies to use SDK Version 8, which would clear the error
+                            //Check the email against a pattern matcher
                             boolean goodEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(emailInputString).matches();
-                            if (usernameInputString.length() == 0) {
+
+                            if (usernameInputString.length() == 0) { //is username filled in?
                                 loginErrorText.setText("Username is required");
                                 loginErrorText.setBackgroundColor(0xffff0000);
                                 usernameInputText.setBackgroundColor(0xff7D0B0B);
-                            } else if (!passwordInputString.equals(passwordReenterInputString)) {
+                            } else if (!passwordInputString.equals(passwordReenterInputString)) { //do the passwords match?
                                 loginErrorText.setText("Passwords don't match");
                                 loginErrorText.setBackgroundColor(0xffff0000);
                                 passwordInputText.setBackgroundColor(0xff7D0B0B);
                                 passwordReenterInputText.setBackgroundColor(0xff7D0B0B);
-                            } else if (passwordInputString.length() == 0 || passwordReenterInputString.length() == 0) {
+                            } else if (passwordInputString.length() == 0 || passwordReenterInputString.length() == 0) { //are the passwords filled in?
                                 loginErrorText.setText("Password is required");
                                 loginErrorText.setBackgroundColor(0xffff0000);
                                 passwordInputText.setBackgroundColor(0xff7D0B0B);
                                 passwordReenterInputText.setBackgroundColor(0xff7D0B0B);
-                            } else if (emailInputString.length() == 0) {
+                            } else if (emailInputString.length() == 0) { //is email filled in?
                                 loginErrorText.setText("Email is required");
                                 loginErrorText.setBackgroundColor(0xffff0000);
                                 emailInputText.setBackgroundColor(0xff7D0B0B);
-                            } else if (!goodEmail) {
+                            } else if (!goodEmail) { //did the email pass the pattern matcher?
                                 loginErrorText.setText("Email is not valid");
                                 loginErrorText.setBackgroundColor(0xffff0000);
                                 emailInputText.setBackgroundColor(0xff7D0B0B);
-                            } else {
+                            } else { //try to create the account
                                 loginErrorText.setText("Create An Account");
                                 loginErrorText.setBackgroundColor(0xff3399cc);
-                                new postCreateAccountJson(registerPostLink, usernameInputString, passwordInputString, emailInputString, fnameInputString, lnameInputString);
-                                if (code < 300 && code > 0){
-                                    setContentView(R.layout.result_activity);
-                                }
-                                // Proceed
+                                new postCreateAccountJson(loginErrorText, registerPostLink, usernameInputString, passwordInputString, emailInputString, fnameInputString, lnameInputString);
                             }
                         }
                     });
                 } catch (Exception e) {
                     Log.e("error_tag", e.toString());
                 }
+
             }
         });
 
@@ -232,31 +204,19 @@ public class SignInActivity extends Activity {
                     String usernameInputString = usernameInputText.getText().toString();
                     String passwordInputString = passwordInputText.getText().toString();
 
-                    //the password fields are set to regular text to ensure the look of the font is the same.
-                    //this will change the fields to still act like a normal password field (mask characters)
-                    passwordInputText.setTypeface(Typeface.DEFAULT); //Not working!
-                    passwordInputText.setTransformationMethod(new PasswordTransformationMethod());
-
-                    // check to see if either username or password is missing
-                    if (usernameInputString.length() == 0 && passwordInputString.length() == 0) {
+                    if (usernameInputString.length() == 0 && passwordInputString.length() == 0) { //is anything filled in?
                         loginErrorText.setText("Username and Password are required");
                         loginErrorText.setBackgroundColor(0xffff0000);
-                    } else if (usernameInputString.length() == 0) {
+                    } else if (usernameInputString.length() == 0) { //is username filled in?
                         loginErrorText.setText("Username is required");
                         loginErrorText.setBackgroundColor(0xffff0000);
-                    } else if (passwordInputString.length() == 0) {
+                    } else if (passwordInputString.length() == 0) { //is password filled in?
                         loginErrorText.setText("Password is required");
                         loginErrorText.setBackgroundColor(0xffff0000);
-                    } else {
-                        loginErrorText.setText("Login");
-                        loginErrorText.setBackgroundColor(0xff3399cc);
-                        new postSignInJson(loginPostLink, usernameInputString, passwordInputString);
-
-                        if (code < 300 && code > 0){
-                            setContentView(R.layout.result_activity);
-                        }
-
-                        //proceed
+                    } else { //try to log in
+                        loginErrorText.setText("Login"); //reset view
+                        loginErrorText.setBackgroundColor(0xff3399cc); //reset view
+                        new postSignInJson(loginErrorText, loginPostLink, usernameInputString, passwordInputString);
                     }
                 } catch (Exception e) {
                     Log.i("error_tag", e.toString());
