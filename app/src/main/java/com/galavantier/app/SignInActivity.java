@@ -207,6 +207,9 @@ public class SignInActivity extends Activity {
                                 loginErrorText.setText("Create An Account");
                                 loginErrorText.setBackgroundColor(0xff3399cc);
                                 new postCreateAccountJson(registerPostLink, usernameInputString, passwordInputString, emailInputString, fnameInputString, lnameInputString);
+                                if (code < 300 && code > 0){
+                                    setContentView(R.layout.result_activity);
+                                }
                                 // Proceed
                             }
                         }
