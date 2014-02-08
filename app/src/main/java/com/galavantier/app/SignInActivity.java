@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -26,7 +27,7 @@ public class SignInActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.sign_in_activity);
         loginErrorText = (EditText) findViewById(R.id.login_text);
         loginErrorText.setFocusable(false);
@@ -37,6 +38,7 @@ public class SignInActivity extends Activity {
         createAccountSwitchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
+                    //requestWindowFeature(Window.FEATURE_NO_TITLE);
                     setContentView(R.layout.create_account_activity);
                     loginErrorText = (EditText) findViewById(R.id.login_text);
                     loginErrorText.setFocusable(false);
@@ -135,8 +137,10 @@ public class SignInActivity extends Activity {
 
     public boolean checkEmail(String emailInputString) {
         if (Build.VERSION.SDK_INT >= 8) {
+            // check email against the premade android email match API
             goodEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(emailInputString).matches();
         } else {
+            // check email against a bad reg-ex
             Pattern pattern;
             Matcher matcher;
             String EMAIL_PATTERN = "^[A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
