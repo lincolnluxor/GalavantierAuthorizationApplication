@@ -50,7 +50,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="3dp"
-            android:inputType="text" />
+            android:inputType="text|textFilter" />
 
         <EditText
             android:layout_width="match_parent"
@@ -70,7 +70,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="3dp"
             android:editable="true"
-            android:inputType="textPassword" />
+            android:inputType="textFilter|textPassword" />
 
         <Button android:id="@+id/sign_in_button"
             style="?metaButtonBarButtonStyle"
