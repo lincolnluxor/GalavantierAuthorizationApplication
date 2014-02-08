@@ -1,16 +1,22 @@
 package com.galavantier.app;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignInActivity extends Activity {
     EditText usernameInputText;
     EditText passwordInputText;
     EditText loginErrorText;
+
 
     String loginPostLink = "http://dev-mgl.gotpantheon.com/api/user/login.json";
     String registerPostLink = "http://dev-mgl.gotpantheon.com/api/mglUser/register.json";
@@ -22,6 +28,8 @@ public class SignInActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.sign_in_activity);
+        loginErrorText = (EditText) findViewById(R.id.login_text);
+        loginErrorText.setFocusable(false);
 
         Button signInButton = (Button) findViewById(R.id.sign_in_button);
         Button createAccountSwitchButton = (Button) findViewById(R.id.create_account_switch_button);
@@ -30,6 +38,8 @@ public class SignInActivity extends Activity {
             public void onClick(View view) {
                 try {
                     setContentView(R.layout.create_account_activity);
+                    loginErrorText = (EditText) findViewById(R.id.login_text);
+                    loginErrorText.setFocusable(false);
                     Button createAccountButton = (Button) findViewById(R.id.create_account_button);
 
                     createAccountButton.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +51,6 @@ public class SignInActivity extends Activity {
                             EditText fnameInputText = (EditText) findViewById(R.id.fname_input);
                             EditText lnameInputText = (EditText) findViewById(R.id.lname_input);
                             EditText passwordReenterInputText = (EditText) findViewById(R.id.password_reenter_input);
-                            loginErrorText = (EditText) findViewById(R.id.login_text);
 
                             // transform to string
                             // nulls are ok... checking for that later
@@ -98,7 +107,6 @@ public class SignInActivity extends Activity {
                     // getting edittext info
                     usernameInputText = (EditText) findViewById(R.id.username_input);
                     passwordInputText = (EditText) findViewById(R.id.password_input);
-                    loginErrorText = (EditText) findViewById(R.id.login_text);
 
                     // transform to string
                     String usernameInputString = usernameInputText.getText().toString();
@@ -126,7 +134,18 @@ public class SignInActivity extends Activity {
     }
 
     public boolean checkEmail(String emailInputString) {
-        goodEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(emailInputString).matches();
+        if (Build.VERSION.SDK_INT >= 8) {
+            goodEmail = android.util.Patterns.EMAIL_ADDRESS.matcher(emailInputString).matches();
+        } else {
+            Pattern pattern;
+            Matcher matcher;
+            String EMAIL_PATTERN = "^[A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+            pattern = Pattern.compile(EMAIL_PATTERN);
+            matcher = pattern.matcher(emailInputString);
+            if (matcher.matches()) {
+                goodEmail = true;
+            }
+        }
         return goodEmail;
     }
 }
