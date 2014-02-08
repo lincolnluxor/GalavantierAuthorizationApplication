@@ -71,10 +71,14 @@ public class postCreateAccountJson {
             //no server response
             loginErrorText.setText("No server response. Try again.");
             loginErrorText.setBackgroundColor(0xffff0000);
-        } else if (code < 300) {
+        } else if (code == 200) {
             //logged in
             loginErrorText.setText("Successfully created account!");
             loginErrorText.setBackgroundColor(0xff00ff00);
+        } else {
+            //not logged in
+            loginErrorText.setText("Please try again");
+            loginErrorText.setBackgroundColor(0xffff0000);
         }
     }
 
