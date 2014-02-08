@@ -7,6 +7,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -38,7 +39,7 @@ public class SignInActivity extends Activity {
         createAccountSwitchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
-                    //requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    hideSoftKeyboard();
                     setContentView(R.layout.create_account_activity);
                     loginErrorText = (EditText) findViewById(R.id.login_text);
                     loginErrorText.setFocusable(false);
@@ -151,5 +152,20 @@ public class SignInActivity extends Activity {
             }
         }
         return goodEmail;
+    }
+
+    // Hides the soft keyboard
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+    
+    // Shows the soft keyboard
+    public void showSoftKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        view.requestFocus();
+        inputMethodManager.showSoftInput(view, 0);
     }
 }
