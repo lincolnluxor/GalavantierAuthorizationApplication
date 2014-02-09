@@ -1,8 +1,10 @@
 package com.galavantier.app;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -36,6 +38,12 @@ public class SignInActivity extends Activity {
         Button signInButton = (Button) findViewById(R.id.sign_in_button);
         Button createAccountSwitchButton = (Button) findViewById(R.id.create_account_switch_button);
 
+        // getting edittext info
+        usernameInputText = (EditText) findViewById(R.id.username_input);
+        passwordInputText = (EditText) findViewById(R.id.password_input);
+        passwordInputText.setTypeface(Typeface.SANS_SERIF);
+        passwordInputText.setTransformationMethod(new PasswordTransformationMethod());
+
         createAccountSwitchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
@@ -44,6 +52,13 @@ public class SignInActivity extends Activity {
                     loginErrorText = (EditText) findViewById(R.id.login_text);
                     loginErrorText.setFocusable(false);
                     Button createAccountButton = (Button) findViewById(R.id.create_account_button);
+                    //EditText
+                    passwordInputText = (EditText) findViewById(R.id.password_input);
+                    passwordInputText.setTypeface(Typeface.SANS_SERIF);
+                    passwordInputText.setTransformationMethod(new PasswordTransformationMethod());
+                    final EditText passwordReenterInputText = (EditText) findViewById(R.id.password_reenter_input);
+                    passwordReenterInputText.setTypeface(Typeface.SANS_SERIF);
+                    passwordReenterInputText.setTransformationMethod(new PasswordTransformationMethod());
 
                     createAccountButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
@@ -53,7 +68,7 @@ public class SignInActivity extends Activity {
                             EditText emailInputText = (EditText) findViewById(R.id.email_input);
                             EditText fnameInputText = (EditText) findViewById(R.id.fname_input);
                             EditText lnameInputText = (EditText) findViewById(R.id.lname_input);
-                            EditText passwordReenterInputText = (EditText) findViewById(R.id.password_reenter_input);
+                            //EditText passwordReenterInputText = (EditText) findViewById(R.id.password_reenter_input);
 
                             // transform to string
                             // nulls are ok... checking for that later
@@ -161,7 +176,7 @@ public class SignInActivity extends Activity {
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
-    
+
     // Shows the soft keyboard
     public void showSoftKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);

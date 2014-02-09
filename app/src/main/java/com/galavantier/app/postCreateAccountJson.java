@@ -55,6 +55,8 @@ public class postCreateAccountJson {
                     if(response != null) {
                         //find and save the response code
                         code = response.getStatusLine().getStatusCode();
+                        Log.i("json_tag",json.toString());
+                        Log.i("response_tag",Integer.toString(code));
                     } else {
                         //random int not associated with http response codes to show no server response
                         code = 9999;
